@@ -23,7 +23,14 @@ app.post('/book', (req, res) => {
     books.push(book);
     let retval = "";
 
-    time = prayerTimes.getSolarNoon(book.latitude, book.longitude, 'America/New_York')
+    if (book.event == 'sunrise') {
+        time = prayerTimes.getSunrise(book.latitude, book.longitude, book.timezone);
+    } else if (book.event == 'solarNoon') {
+        time = prayerTimes.getSolarNoon(book.latitude, book.longitude, book.timezone);
+    } else if (book.event == 'sunset') {
+        time = prayerTimes.getSunset(book.latitude, book.longitude, book.timezone);
+    }
+
     retval = retval + '\n' + time;
 
     console.log(time);

@@ -1,6 +1,10 @@
 const SunCalc = require('suncalc');
 const DateFnsTz = require('date-fns-tz');
 
+function convertTZ(date, tzString) {
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+}
+
 function getSolarNoon(latString, longString, timezone) {
     const lat = parseInt(latString);
     const long = parseInt(longString);
@@ -10,28 +14,44 @@ function getSolarNoon(latString, longString, timezone) {
     const times = SunCalc.getTimes(localDate, lat, long);
     // console.log(times);
     const solarNoonLocal = times.solarNoon;
-    const solarNoonUTC = DateFnsTz.zonedTimeToUtc(solarNoonLocal, local)
-    const solarNoonTZ = DateFnsTz.utcToZonedTime(solarNoonUTC, timezone)
-    // const solarNoonStr = solarNoonTZ.getHours() + ':' + solarNoonTZ.getMinutes();
-    console.log(local);
-    console.log(localDate);
-    console.log(localDate.toString());
-    console.log("solarNoonLocal: " + solarNoonLocal);
-    console.log("solarNoonUTC:   " + solarNoonUTC);
-    console.log("solarNoonTZ:    " + solarNoonTZ);
-    return solarNoonTZ;
+
+    solarNoonFinal = convertTZ(solarNoonLocal, timezone); // this works kinda.
+    // it says the wrong timezone but the time is right for the most part it seems.
+
+    return solarNoonFinal;
 }
 
-// function getSunrise(latString, longString, timezone) {
-//     const lat = parseInt(latString);
-//     const long = parseInt(longString);
+function getSunrise(latString, longString, timezone) {
+    const lat = parseInt(latString);
+    const long = parseInt(longString);
+    const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localDate = new Date();
 
-//     const times = SunCalc.getTimes(new Date(), lat, long);
-//     const sunriseUTC = times.sunrise;
-//     const sunriseTZ = DateFnsTz.utcToZonedTime(sunriseUTC, timezone)
-//     const sunriseStr = sunriseTZ.getHours() + ':' + sunriseTZ.getMinutes();
-//     return sunriseTZ;
-// }
+    const times = SunCalc.getTimes(localDate, lat, long);
+    // console.log(times);
+    const sunriseLocal = times.sunrise;
+
+    sunriseFinal = convertTZ(sunriseLocal, timezone); // this works kinda.
+    // it says the wrong timezone but the time is right for the most part it seems.
+
+    return sunriseFinal;
+}
+
+function getSunset(latString, longString, timezone) {
+    const lat = parseInt(latString);
+    const long = parseInt(longString);
+    const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localDate = new Date();
+
+    const times = SunCalc.getTimes(localDate, lat, long);
+    // console.log(times);
+    const sunsetLocal = times.sunset;
+
+    sunsetFinal = convertTZ(sunsetLocal, timezone); // this works kinda.
+    // it says the wrong timezone but the time is right for the most part it seems.
+
+    return sunsetFinal;
+}
 
 // Toronto Coords
 // lat = 43.653225
@@ -44,5 +64,6 @@ function getSolarNoon(latString, longString, timezone) {
 // mymodule.js
 module.exports = {
     getSolarNoon,
-    // getSunrise,
+    getSunrise,
+    getSunset,
 }
