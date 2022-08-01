@@ -8,7 +8,6 @@ const port = 3000;
 
 // Where we will keep books
 let books = [];
-let number = 0;
 
 app.use(cors());
 
@@ -22,10 +21,14 @@ app.post('/book', (req, res) => {
     // Output the book to the console for debugging
     console.log(book);
     books.push(book);
-    number = prayerTimes.getSolarNoon(book.genre, book.title)
-    console.log(number);
+    let retval = "";
 
-    res.send('Book is added to the database');
+    time = prayerTimes.getSolarNoon(book.latitude, book.longitude, 'America/New_York')
+    retval = retval + '\n' + time;
+
+    console.log(time);
+
+    res.send(retval);
 });
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
