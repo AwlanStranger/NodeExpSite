@@ -1,19 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState} from "react"
 
 function App() {
-  return (
+    const [state, setState] = useState(false);
+    function functionOnSubmit(event) {
+        event.preventDefault();
+    }
+
+    function handleTZChange(event) {
+        console.log(event.target.value);
+    }
+
+    function handleSubmit() {
+        setState(!state);
+        console.log(state);
+    }
+
+
+    return (
     <div class="container">
       <hr/>
       <h1>Where is the Sun?</h1>
       <hr/>
 
-      <form action="http://localhost:3001/book" method="POST">
+      <form onSubmit={functionOnSubmit}>
         
           {/* Timezone selector */}
           <div class="form-group">
               <label for="Timezone">Timezone</label>
-              <select class="form-control" name="timezone">
+              {/* CHANGING THE OPTION IN THE DROPDOWN */}
+              <select class="form-control" name="timezone" value={state.timezone} onChange={handleTZChange}>
                   <option value="America/Toronto">EDT</option>
                   <option value="America/Panama">EST</option>
                   <option value="Africa/Abidjan">UTC</option>
@@ -43,7 +60,9 @@ function App() {
           </div>
 
           {/* Submit button */}
-          <button type="submit" class="btn btn-primary">Submit</button>
+
+          {/* CLICKING SUBMIT CALLS HANDLESUBMIT */}
+          <button type="submit" class="btn btn-primary" onClick={() => handleSubmit()}>Submit</button>
       </form>
     </div>
   );
