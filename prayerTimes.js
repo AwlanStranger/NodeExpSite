@@ -1,6 +1,5 @@
 const SunCalc = require('suncalc');
 const DateFnsTz = require('date-fns-tz');
-const moment = require('moment-timezone');
 
 function convertTZ(date, tzString) {
     return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
