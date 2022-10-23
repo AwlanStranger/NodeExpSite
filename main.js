@@ -2,6 +2,7 @@ const prayerTimes = require('./prayerTimes');
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mysql = require('mysql');
 
 const app = express();
 const port = 3001;
@@ -15,27 +16,66 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/book', (req, res) => {
-    const book = req.body;
+// app.get('/book', (req, res) => {
+//     const solarEventRequest = req.body;
 
-    // Output the book to the console for debugging
-    console.log(book);
-    books.push(book);
-    let retval = "";
+//     // Output the book to the console for debugging
+//     console.log(solarEventRequest);
+//     books.push(solarEventRequest);
+//     let retval = "";
 
-    if (book.event == 'sunrise') {
-        time = prayerTimes.getSunrise(book.latitude, book.longitude, book.timezone);
-    } else if (book.event == 'solarNoon') {
-        time = prayerTimes.getSolarNoon(book.latitude, book.longitude, book.timezone);
-    } else if (book.event == 'sunset') {
-        time = prayerTimes.getSunset(book.latitude, book.longitude, book.timezone);
+//     // default value for time
+//     time = 0;
+//     if (solarEventRequest.event == 'sunrise') {
+//         time = prayerTimes.getSunrise(solarEventRequest.latitude, solarEventRequest.longitude, solarEventRequest.timezone);
+//     } else if (solarEventRequest.event == 'solarNoon') {
+//         time = prayerTimes.getSolarNoon(solarEventRequest.latitude, solarEventRequest.longitude, solarEventRequest.timezone);
+//     } else if (solarEventRequest.event == 'sunset') {
+//         time = prayerTimes.getSunset(solarEventRequest.latitude, solarEventRequest.longitude, solarEventRequest.timezone);
+//     } else {
+//         // failed. put try catch or fill in this else?
+//         console.log(solarEventRequest.event);
+//     }
+
+//     retval = retval + '\n' + time;
+
+//     console.log(time);
+
+//     res.send(retval);
+// });
+
+app.get('/it', (req, res) => {
+    const solarEventRequest = req.query;
+    let event;
+    let timezone;
+    let latitude;
+    let longitude;
+    let time = 0;
+
+    try {
+        event = solarEventRequest.event;
+        timezone = solarEventRequest.timezone;
+        latitude = solarEventRequest.latitude;
+        longitude = solarEventRequest.longitude;
+    } catch {
+        res.send('missing params');
     }
 
-    retval = retval + '\n' + time;
 
-    console.log(time);
+    if (event == 'sunrise') {
+        time = prayerTimes.getSunrise(latitude, longitude, timezone);
 
-    res.send(retval);
-});
+    } else if (event == 'solarNoon') {
+        res.send('Blazing Midday!');
+
+    } else if (event == 'sunset') {
+        time = prayerTimes.getSunset(latitude, longitude, timezone);
+
+    } else {
+        res.send('Sad World.');
+    }
+    
+    res.send(time);
+})
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));

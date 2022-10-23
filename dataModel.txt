@@ -1,0 +1,13 @@
+location
+-name
+-lat
+-long
+-alternate names
+-timezone
+
+solarevent
+-day
+-location id
+-sunrise
+-sunset
+-zenith
