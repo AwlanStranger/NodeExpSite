@@ -7,7 +7,7 @@ const DEFAULT_EVENT = "sunrise";
 const DEFAULT_LONGITUDE = 0;
 const DEFAULT_LATITUDE = 0;
 
-export default function SolarEvent() {
+export default function SolarEvent(params) {
 
     const [state, setState] = useState({
         // Setting default values for state variables
@@ -29,14 +29,32 @@ export default function SolarEvent() {
         console.log(event.target.value);
     }
 
+    function handleLatSubmit(event) {
+        console.log(event.target.value);
+        setState((oldState) => {
+            return {
+                ...oldState, latitude: event.target.value
+            }
+        })
+    }
+
+    function handleLongSubmit(event) {
+        console.log(event.target.value);
+        setState((oldState) => {
+            return {
+                ...oldState, longitude: event.target.value
+            }
+        })
+    }
+
     function handleSubmit() {
         // setState(!state);
         console.log(state);
-        axios.get
+        const response = axios.get
         (
             "http://localhost:3001/it",
             {
-                data: {
+                params: {
                     timezone: state.timezone,
                     event: state.event, 
                     latitude: state.latitude,
@@ -46,6 +64,8 @@ export default function SolarEvent() {
         ).catch(function (error){
             console.log("Found error in handleSubmit");
         })
+
+        params.updateAppState(response.data);
     }
 
 
@@ -81,19 +101,19 @@ export default function SolarEvent() {
           {/* Latitude input */}
           <div class="form-group">
               <label for="Latitude">Latitude</label>
-              <input class="form-control" type="number" step=".000001" name="latitude"/>
+              <input class="form-control" type="number" step=".000001" name="latitude" onChange={handleLatSubmit}/>
           </div>
 
           {/* Longitude input */}
           <div class="form-group">
               <label for="Longitude">Longitude</label>
-              <input class="form-control" type="number" step=".000001" name="longitude"/>
+              <input class="form-control" type="number" step=".000001" name="longitude" onChange={handleLongSubmit}/>
           </div>
 
           {/* Submit button */}
 
           {/* CLICKING SUBMIT CALLS HANDLESUBMIT */}
-          <button type="submit" class="btn btn-primary" onClick={() => handleSubmit()}>Submit</button>
+          <button type="submit" class="btn btn-primary" onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );
