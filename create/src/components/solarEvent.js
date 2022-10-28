@@ -23,10 +23,20 @@ export default function SolarEvent(params) {
 
     function handleTimezoneChange(event) {
         console.log(event.target.value);
+        setState((oldState) => {
+            return {
+                ...oldState, timezone: event.target.value
+            }
+        })
     }
 
-    function handleEventChange(event) {
+    function handleEventChange(event) { // note how here event can either mean "onChange" or "a solar event"
         console.log(event.target.value);
+        setState((oldState) => {
+            return {
+                ...oldState, event: event.target.value
+            }
+        })
     }
 
     function handleLatSubmit(event) {
@@ -50,7 +60,7 @@ export default function SolarEvent(params) {
     // function handleSubmit() {
     function formSubmit(event) {
         event.preventDefault();
-        // console.log(state);
+        console.log(state);
         /* const response = */axios.get (
             "http://localhost:3001/it",
             {
@@ -98,7 +108,7 @@ export default function SolarEvent(params) {
           {/* Event selector */}
           <div class="form-group">
               <label for="Event">Event</label>
-              <select class="form-control" name="event">
+              <select class="form-control" name="solarEvent" onChange={handleEventChange}>
                   <option value="sunrise">Sunrise</option>
                   <option value="solarNoon">Solar Noon</option>
                   <option value="sunset">Sunset</option>

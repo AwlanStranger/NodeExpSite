@@ -19,7 +19,7 @@ function App() {
       isTimeSet: true,
       time: newTime
     });
-    console.log(state);
+    // console.log(state);
   }
 
   return (
