@@ -5,20 +5,11 @@ function convertTZ(date, tzString) {
     return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
 }
 
-function getSolarNoon(latString, longString, timezone) {
-    const lat = parseInt(latString);
-    const long = parseInt(longString);
-    const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const localDate = new Date();
-
-    const times = SunCalc.getTimes(localDate, lat, long);
-    // console.log(times);
-    const solarNoonLocal = times.solarNoon;
-
-    solarNoonFinal = convertTZ(solarNoonLocal, timezone); // this works kinda.
-    // it says the wrong timezone but the time is right for the most part it seems.
-
-    return solarNoonFinal;
+function getSolarNoon(lat, long, timezone) {
+    const utcTimes = SunCalc.getTimes(new Date(), lat, long);
+    const utcTime = utcTimes.solarNoon;
+    const localTime = utcTime.toLocaleTimeString("en-US", {timeZone: timezone, hour12: false})
+    return localTime;
 }
 
 function getSunrise(lat, long, timezone) {

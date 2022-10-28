@@ -66,7 +66,7 @@ app.get('/it', (req, res) => {
         time = prayerTimes.getSunrise(latitude, longitude, timezone);
 
     } else if (event == 'solarNoon') {
-        res.send('Blazing Midday!');
+        time = prayerTimes.getSolarNoon(latitude, longitude, timezone);
 
     } else if (event == 'sunset') {
         time = prayerTimes.getSunset(latitude, longitude, timezone);
