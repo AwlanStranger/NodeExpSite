@@ -17,9 +17,9 @@ export default function SolarEvent(params) {
         longitude : DEFAULT_LONGITUDE
     })
 
-    function formSubmit(event) {
-        event.preventDefault();
-    }
+    // function formSubmit(event) {
+    //     event.preventDefault();
+    // }
 
     function handleTimezoneChange(event) {
         console.log(event.target.value);
@@ -47,11 +47,11 @@ export default function SolarEvent(params) {
         })
     }
 
-    function handleSubmit() {
-        // setState(!state);
-        console.log(state);
-        const response = axios.get
-        (
+    // function handleSubmit() {
+    function formSubmit(event) {
+        event.preventDefault();
+        // console.log(state);
+        /* const response = */axios.get (
             "http://localhost:3001/it",
             {
                 params: {
@@ -61,11 +61,18 @@ export default function SolarEvent(params) {
                     longitude: state.longitude
                 }
             }
-        ).catch(function (error){
+        )
+        .then((response) =>
+            {
+                params.updateAppState(response.data);
+    
+                console.log(response);
+                console.log(params.updateAppState);
+            }
+        )
+        .catch(function (error){
             console.log("Found error in handleSubmit");
         })
-
-        params.updateAppState(response.data);
     }
 
 
@@ -113,7 +120,7 @@ export default function SolarEvent(params) {
           {/* Submit button */}
 
           {/* CLICKING SUBMIT CALLS HANDLESUBMIT */}
-          <button type="submit" class="btn btn-primary" onClick={handleSubmit}>Submit</button>
+          <button type="submit" class="btn btn-primary" /*onClick={handleSubmit}*/>Submit</button>
       </form>
     </div>
   );

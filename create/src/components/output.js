@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import { render } from 'react-dom'
 
-export default function Output(time) {
+export default function Output(params) {
 
   // const [state, setState] = useState({
   //     // Setting default values for state variables
@@ -15,7 +15,7 @@ export default function Output(time) {
 
   return (
   <div class="container">
-    {time}
+    {params.time}
   </div>
 );
 }

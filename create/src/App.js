@@ -6,23 +6,27 @@ import Output from './components/output';
 
 const DEFAULT_TIME = "default time";
 
-function updateAppState() {
-  //
-}
-
 function App() {
 
   const [state, setState] = useState({
-      // Setting default values for state variables
-      isTimeSet: false,
-      time: DEFAULT_TIME
-    })
+    // Setting default values for state variables
+    isTimeSet: false,
+    time: DEFAULT_TIME
+  })
 
-    return (
+  function updateAppState(newTime) {
+    setState({
+      isTimeSet: true,
+      time: newTime
+    });
+    console.log(state);
+  }
+
+  return (
     <div>
-        <SolarEvent updateData={updateAppState}/>
+        <SolarEvent updateAppState={updateAppState}/>
         {state.isTimeSet
-          ? <Output/>
+          ? <Output time={state.time}/>
           : 'Please Fill out the form'
         }
     </div>
