@@ -54,7 +54,7 @@ export default function SolarEvent(params) {
             return {
                 ...oldState, longitude: event.target.value
             }
-        })
+        });
     }
 
     // function handleSubmit() {
@@ -74,10 +74,10 @@ export default function SolarEvent(params) {
         )
         .then((response) =>
             {
-                params.updateAppState(response.data);
+                params.updateSolarState(response.data);
     
                 console.log(response);
-                console.log(params.updateAppState);
+                // console.log(params.updateSolarState);
             }
         )
         .catch(function (error){

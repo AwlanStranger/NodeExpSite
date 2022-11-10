@@ -10,12 +10,6 @@ const DEFAULT_LONGITUDE = 0;
 const DEFAULT_LATITUDE = 0;
 const MAPS_API_KEY = 'AIzaSyAL8tzB79ggC3maqd6LOsUzxRTKp7FXb50';
 
-function handlePlaceSelect(place) {
-    console.log(place);
-    console.log(place.geometry.location.lat());
-    console.log(place.geometry.location.lng());
-}
-
 export default function Location(params) {
 
     const [state, setState] = useState({
@@ -24,6 +18,13 @@ export default function Location(params) {
         longitude : DEFAULT_LONGITUDE,
         timezone : DEFAULT_TIMEZONE,
     })
+
+    function handlePlaceSelect(place) {
+        console.log(place);
+        console.log(place.geometry.location.lat());
+        console.log(place.geometry.location.lng());
+        params.updateLocation(place.geometry.location.lat(), place.geometry.location.lng());
+    }
 
     return (
     <div class="container">

@@ -6,28 +6,41 @@ import Output from './components/output';
 import Location from './components/locationSelector'
 
 const DEFAULT_TIME = 'Please fill out the form';
+const DEFAULT_LAT = 0;
+const DEFAULT_LONG = 0;
 
 function App() {
 
   const [state, setState] = useState({
     // Setting default values for state variables
-    isTimeSet: false,
-    time: DEFAULT_TIME
+    // isTimeSet: false,
+    time: DEFAULT_TIME,
+    lat: DEFAULT_LAT,
+    long: DEFAULT_LONG,
   })
 
-  function updateAppState(newTime) {
-    setState({
-      isTimeSet: true,
-      time: newTime
+  function updateSolarState(newTime) {
+    setState((oldState) => {
+        return {
+            ...oldState, time: newTime
+        }
     });
-    // console.log(state);
+  }
+
+  function updateLocation(newLat, newLong) {
+    setState((oldState) => {
+        return {
+            ...oldState, lat: newLat, long: newLong
+        }
+    });
+    console.log(state);
   }
 
   return (
     <div>
-        <SolarEvent updateAppState={updateAppState}/>
+        <SolarEvent updateSolarState={updateSolarState}/>
         <Output time={state.time}/>
-        <Location/>
+        <Location updateLocation={updateLocation}/>
     </div>
   );
 }
