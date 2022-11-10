@@ -62,14 +62,23 @@ app.get('/it', (req, res) => {
     }
 
 
-    if (event == 'sunrise') {
+    if (event == 'fajr') {
+        time = prayerTimes.getFajrISNA(latitude, longitude, timezone);
+
+    } else if (event == 'sunrise') {
         time = prayerTimes.getSunrise(latitude, longitude, timezone);
 
-    } else if (event == 'solarNoon') {
-        time = prayerTimes.getSolarNoon(latitude, longitude, timezone);
+    } else if (event == 'dhuhr') {
+        time = prayerTimes.getDhuhrISNA(latitude, longitude, timezone);
 
-    } else if (event == 'sunset') {
-        time = prayerTimes.getSunset(latitude, longitude, timezone);
+    } else if (event == 'asr') {
+        time = prayerTimes.getAsrISNA(latitude, longitude, timezone);
+
+    } else if (event == 'maghrib') {
+        time = prayerTimes.getMaghribISNA(latitude, longitude, timezone);
+
+    } else if (event == 'isha') {
+        time = prayerTimes.getIshaISNA(latitude, longitude, timezone);
 
     } else {
         res.send('Sad World.');

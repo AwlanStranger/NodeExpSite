@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useState} from "react"
 
 const DEFAULT_TIMEZONE = "America/Toronto";
-const DEFAULT_EVENT = "sunrise";
+const DEFAULT_EVENT = "fajr";
 const DEFAULT_LONGITUDE = 0;
 const DEFAULT_LATITUDE = 0;
 
@@ -109,22 +109,25 @@ export default function SolarEvent(params) {
           <div class="form-group">
               <label for="Event">Event</label>
               <select class="form-control" name="solarEvent" onChange={handleEventChange}>
-                  <option value="sunrise">Sunrise</option>
-                  <option value="solarNoon">Solar Noon</option>
-                  <option value="sunset">Sunset</option>
+                <option value="fajr">Fajr</option>
+                <option value="sunrise">Sunrise</option>
+                <option value="dhuhr">Dhuhr</option>
+                <option value="asr">Asr</option>
+                <option value="maghrib">Maghrib</option>
+                <option value="isha">Isha</option>
               </select>
           </div>
 
           {/* Latitude input */}
           <div class="form-group">
               <label for="Latitude">Latitude</label>
-              <input class="form-control" type="number" step=".000001" name="latitude" onChange={handleLatSubmit}/>
+              <input class="form-control" type="number" step=".000001" name="latitude" onChange={handleLatSubmit} placeholder={DEFAULT_LATITUDE}/>
           </div>
 
           {/* Longitude input */}
           <div class="form-group">
               <label for="Longitude">Longitude</label>
-              <input class="form-control" type="number" step=".000001" name="longitude" onChange={handleLongSubmit}/>
+              <input class="form-control" type="number" step=".000001" name="longitude" onChange={handleLongSubmit} placeholder={DEFAULT_LONGITUDE}/>
           </div>
 
           {/* Submit button */}

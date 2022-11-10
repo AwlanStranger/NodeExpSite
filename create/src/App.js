@@ -3,8 +3,9 @@ import './App.css';
 import {useState} from "react"
 import SolarEvent from './components/solarEvent';
 import Output from './components/output';
+import Location from './components/locationSelector'
 
-const DEFAULT_TIME = "default time";
+const DEFAULT_TIME = 'Please fill out the form';
 
 function App() {
 
@@ -25,10 +26,8 @@ function App() {
   return (
     <div>
         <SolarEvent updateAppState={updateAppState}/>
-        {state.isTimeSet
-          ? <Output time={state.time}/>
-          : 'Please Fill out the form'
-        }
+        <Output time={state.time}/>
+        <Location/>
     </div>
   );
 }
