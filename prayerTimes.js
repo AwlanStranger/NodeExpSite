@@ -1,4 +1,5 @@
 const SunCalc = require('suncalc');
+// const Moment = require('moment')
 
 // CONSTANTS //////////////////////////////////////////////////////////////////////////////////////
 
@@ -122,7 +123,65 @@ function getDhuhrISNA(lat, long, timezone) {
 }
 
 function getAsrISNA(lat, long, timezone) {
+    function findTimeOfSettingAngle(startTimeDate, targetAngle) { // i have no idea if this function works
+        const MINUTE_INCREMENT = 1;
+        let currentTimeDate = startTimeDate;
+        while (true) {
+            let currentAngle = SunCalc.getPosition(currentTimeDate, lat, long).altitude;
 
+            // TEST OUTPUT
+            // console.log("-- " + currentTimeDate);
+            // console.log(currentAngle);
+
+            if (currentAngle <= targetAngle) return currentTimeDate;
+
+            currentTimeDate = new Date(currentTimeDate.getTime() + MINUTE_INCREMENT*60000);
+
+            if (currentTimeDate == startTimeDate.setHours(startTimeDate.getHours() + 24)) break;
+        }
+        return startTimeDate
+    }
+
+    const solarNoon = getSolarNoon(lat, long);
+    const solarNoonAngle = SunCalc.getPosition(solarNoon, lat, long).altitude;
+    const solarNoonShadow = 1/Math.tan(solarNoonAngle); // this is the length
+                                                        // of a shadow of
+                                                        // a 1 m tall object
+                                                        // at solar noon
+    const asrShadow = solarNoonShadow + 1; // this is the same shadow at shafi asr time
+    const asrAngle = Math.atan(1/asrShadow);
+    const asrMs = findTimeOfSettingAngle(solarNoon, asrAngle).getTime();
+    const asrUTC = new Date(asrMs);
+
+    // TEST OUTPUT
+    // console.log("solar noon angle:" + solarNoonAngle);
+    // console.log("solar noon shadow:" + solarNoonShadow);
+    // console.log("asr shadow:" + asrShadow);
+    // console.log("asr angle:" + asrAngle);
+
+    return localizeTime(asrUTC, timezone);
+
+}
+
+function getAsrHANAFI(lat, long, timezone) {
+    function findTimeOfSettingAngle(startTimeDate, targetAngle) { // i have no idea if this function works
+        const MINUTE_INCREMENT = 1;
+        let currentTimeDate = startTimeDate;
+        while (true) {
+            let currentAngle = SunCalc.getPosition(currentTimeDate, lat, long).altitude;
+            if (currentAngle <= targetAngle) return currentTimeDate;
+            currentTimeDate.setSeconds(currentTimeDate.getSeconds() + (60 * MINUTE_INCREMENT));
+            if (currentTimeDate == startTimeDate.setHours(startTimeDate.getHours() + 24)) break;
+        }
+        return startTimeDate
+    }
+    const solarNoon = getSolarNoon(lat, long);
+    const solarNoonAngle = SunCalc.getPosition(solarNoon, lat, long).altitude;
+    const solarNoonShadow = 1/Math.tan(solarNoonAngle); // this is the length
+                                                        // of a shadow of
+                                                        // a 1 m tall object
+                                                        // at solar noon
+    const asrShadow = solarNoon + 2; // this is the same shadow at hanafi asr time
 }
 
 function getMaghribISNA(lat, long, timezone) {
@@ -144,7 +203,7 @@ function getIshaISNA(lat, long, timezone) {
     return localizeTime(ishaUTC, timezone);
 }
 
-function getQiyamISNA(lat, long, timezone) {
+function getQiyamISNA(lat, long, timezone) { // CURRENTLY THIS IS LAST HALF OF NIGHT, NOT LAST THIRD
     const astronomicalDawn = getNightEnd(lat, long);
 
     const nauticalDawn = getNauticalDawn(lat, long);
@@ -172,8 +231,8 @@ function getQiyamISNA(lat, long, timezone) {
 
 // mymodule.js
 module.exports = {
-    // getSolarNoon,
-    // getSunset,
+    getSolarNoon,
+    getSunset,
     getFajrISNA,
     getSunrise,
     getDhuhrISNA,
