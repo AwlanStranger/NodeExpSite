@@ -4,6 +4,7 @@ import {useState} from "react"
 import SolarEvent from './components/solarEvent';
 import Output from './components/output';
 import Location from './components/locationSelector'
+import Timetable from './components/timetable'
 
 const DEFAULT_TIME = 'Please fill out the form';
 const DEFAULT_LAT = 0;
@@ -38,9 +39,10 @@ function App() {
 
   return (
     <div>
-        <SolarEvent updateSolarState={updateSolarState}/>
-        <Output time={state.time}/>
-        <Location updateLocation={updateLocation}/>
+      <SolarEvent updateSolarState={updateSolarState}/>
+      <Output time={state.time}/>
+      <Location updateLocation={updateLocation}/>
+      <Timetable lat={state.lat} long={state.long}/>
     </div>
   );
 }
