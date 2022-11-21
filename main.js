@@ -44,7 +44,7 @@ app.use(bodyParser.json());
 //     res.send(retval);
 // });
 
-app.get('/it', (req, res) => {
+app.get('/solarEvent', (req, res) => {
     const solarEventRequest = req.query;
     let event;
     let timezone;
@@ -63,22 +63,22 @@ app.get('/it', (req, res) => {
 
 
     if (event == 'fajr') {
-        time = prayerTimes.getFajrISNA(latitude, longitude, timezone);
+        time = prayerTimes.getFajrISNA(latitude, longitude);
 
     } else if (event == 'sunrise') {
-        time = prayerTimes.getSunrise(latitude, longitude, timezone);
+        time = prayerTimes.getSunrise(latitude, longitude);
 
     } else if (event == 'dhuhr') {
-        time = prayerTimes.getDhuhrISNA(latitude, longitude, timezone);
+        time = prayerTimes.getDhuhrISNA(latitude, longitude);
 
     } else if (event == 'asr') {
-        time = prayerTimes.getAsrISNA(latitude, longitude, timezone);
+        time = prayerTimes.getAsrISNA(latitude, longitude);
 
     } else if (event == 'maghrib') {
-        time = prayerTimes.getMaghribISNA(latitude, longitude, timezone);
+        time = prayerTimes.getMaghribISNA(latitude, longitude);
 
     } else if (event == 'isha') {
-        time = prayerTimes.getIshaISNA(latitude, longitude, timezone);
+        time = prayerTimes.getIshaISNA(latitude, longitude);
 
     } else {
         res.send('Sad World.');

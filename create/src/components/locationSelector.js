@@ -23,6 +23,7 @@ export default function Location(params) {
         console.log(place);
         console.log(place.geometry.location.lat());
         console.log(place.geometry.location.lng());
+        console.log(place["get utc_offset"]());
         params.updateLocation(place.geometry.location.lat(), place.geometry.location.lng());
     }
 

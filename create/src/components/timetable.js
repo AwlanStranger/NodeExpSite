@@ -18,7 +18,7 @@ export default function Output(params) {
   return (
   <div class="container">
     Lat: {params.lat}<br/>
-    Long: {params.long}
+    Long: {params.long}<br/>
   </div>
 );
 }

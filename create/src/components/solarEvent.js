@@ -62,7 +62,7 @@ export default function SolarEvent(params) {
         event.preventDefault();
         console.log(state);
         /* const response = */axios.get (
-            "http://localhost:3001/it",
+            "http://localhost:3001/solarEvent",
             {
                 params: {
                     timezone: state.timezone,
@@ -93,17 +93,16 @@ export default function SolarEvent(params) {
       <hr/>
 
       <form onSubmit={formSubmit}>
-        
-          {/* Timezone selector */}
+          {/*
           <div class="form-group">
               <label for="Timezone">Timezone</label>
-              {/* CHANGING THE OPTION IN THE DROPDOWN */}
               <select class="form-control" name="timezone" value={state.timezone} onChange={handleTimezoneChange}>
                   <option value="America/Toronto">EDT</option>
                   <option value="America/Panama">EST</option>
                   <option value="Africa/Abidjan">UTC</option>
               </select>
           </div>
+          */}
 
           {/* Event selector */}
           <div class="form-group">

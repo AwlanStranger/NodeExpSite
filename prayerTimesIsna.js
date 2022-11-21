@@ -1,5 +1,4 @@
 const SunCalc = require('suncalc');
-const GeoTz = require('geo-tz');
 // const Moment = require('moment')
 
 // CONSTANTS //////////////////////////////////////////////////////////////////////////////////////
@@ -17,8 +16,7 @@ const LONDONUK_LONG = 0.1276;
 
 // Helper functions ///////////////////////////////////////////////////////////////////////////////
 
-function localizeTime(lat, long, time) {
-    const timezone = GeoTz.find(lat, long);
+function localizeTime(time, timezone) {
     return time.toLocaleTimeString("en-US", {timeZone: timezone, timeStyle: 'short'})
 }
 
@@ -94,7 +92,7 @@ function getNight(lat, long) { // nautical twilight begins
 // Astronomical Dawn = nightEnd = 18 degrees
 // Nautical Dawn = nauticalDawn = 12 degrees
 
-function getFajrISNA(lat, long) {
+function getFajrISNA(lat, long, timezone) {
     const astronomicalTwilight = getNightEnd(lat, long);
     // console.log(astronomicalTwilight.toLocaleTimeString("en-US", {timeZone: timezone, hour12: false}))
 
@@ -106,27 +104,25 @@ function getFajrISNA(lat, long) {
     const fajrMs = Math.round((nauticalTwilightMs + astronomicalTwilightMs)/2);
     
     const fajrUTC = new Date(fajrMs);
-    return localizeTime(lat, long, fajrUTC);
+    return localizeTime(fajrUTC, timezone);
 }
 
-function getSunrise(lat, long) {
+function getSunrise(lat, long, timezone) {
     const utcTimes = SunCalc.getTimes(new Date(), lat, long);
     const utcTime = utcTimes.sunrise;
-    return localizeTime(lat, long, utcTime);
-    // const localTime = localizeTime(utcTime, timezone);
-    // return localTime;
+    const localTime = localizeTime(utcTime, timezone);
+    return localTime;
     // return utcTime;
 }
 
-function getDhuhrISNA(lat, long) {
+function getDhuhrISNA(lat, long, timezone) {
     const solarNoon = getSolarNoon(lat, long);
     const solarNoonMs = solarNoon.getTime();
     const dhuhrUTC = new Date(solarNoonMs + DHUHR_DELAY);
-    return localizeTime(lat, long, dhuhrUTC);
-    // return localizeTime(dhuhrUTC, timezone);
+    return localizeTime(dhuhrUTC, timezone);
 }
 
-function getAsrISNA(lat, long) {
+function getAsrISNA(lat, long, timezone) {
     function findTimeOfSettingAngle(startTimeDate, targetAngle) { // i have no idea if this function works
         const MINUTE_INCREMENT = 1;
         let currentTimeDate = startTimeDate;
@@ -163,7 +159,7 @@ function getAsrISNA(lat, long) {
     // console.log("asr shadow:" + asrShadow);
     // console.log("asr angle:" + asrAngle);
 
-    return localizeTime(lat, long, asrUTC);
+    return localizeTime(asrUTC, timezone);
 
 }
 
@@ -188,13 +184,13 @@ function getAsrHANAFI(lat, long, timezone) {
     const asrShadow = solarNoon + 2; // this is the same shadow at hanafi asr time
 }
 
-function getMaghribISNA(lat, long) {
+function getMaghribISNA(lat, long, timezone) {
     const sunset = getSunset(lat, long);
     const maghribUTC = sunset;
-    return localizeTime(lat, long, maghribUTC);
+    return localizeTime(maghribUTC, timezone);
 }
 
-function getIshaISNA(lat, long) {
+function getIshaISNA(lat, long, timezone) {
     const nauticalTwilight = getNauticalDusk(lat, long); // dusk starts here (12 degrees)
 
     const astronomicalTwilight = getNight(lat, long); // night starts here (18 degrees)
@@ -204,10 +200,10 @@ function getIshaISNA(lat, long) {
     const ishaMs = Math.round((astronomicalTwilightMs + nauticalTwilightMs)/2);
     
     const ishaUTC = new Date(ishaMs);
-    return localizeTime(lat, long, ishaUTC);
+    return localizeTime(ishaUTC, timezone);
 }
 
-function getQiyamISNA(lat, long) { // CURRENTLY THIS IS LAST HALF OF NIGHT, NOT LAST THIRD
+function getQiyamISNA(lat, long, timezone) { // CURRENTLY THIS IS LAST HALF OF NIGHT, NOT LAST THIRD
     const astronomicalDawn = getNightEnd(lat, long);
 
     const nauticalDawn = getNauticalDawn(lat, long);
@@ -228,7 +224,7 @@ function getQiyamISNA(lat, long) { // CURRENTLY THIS IS LAST HALF OF NIGHT, NOT 
 
     const qiyamMs = Math.round((ishaMs + fajrMs + TWENTYFOURHOURS_MS)/2);
     const qiyamUTC = new Date(qiyamMs);
-    return localizeTime(lat, long, qiyamUTC);
+    return localizeTime(qiyamUTC, timezone);
 }
 
 // EXPORT /////////////////////////////////////////////////////////////////////////////////////////
