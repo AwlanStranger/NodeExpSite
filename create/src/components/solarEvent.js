@@ -88,9 +88,7 @@ export default function SolarEvent(params) {
 
     return (
     <div class="container">
-      <hr/>
       <h1>Where is the Sun?</h1>
-      <hr/>
 
       <form onSubmit={formSubmit}>
           {/*

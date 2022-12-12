@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import SolarEvent from './components/solarEvent';
 import Output from './components/output';
 import Location from './components/locationSelector'
 import Timetable from './components/timetable'
+import axios from 'axios';
 
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 
@@ -15,11 +16,10 @@ const DEFAULT_LONG = 0;
 function App() {
 
   const [state, setState] = useState({
-    // Setting default values for state variables
-    // isTimeSet: false,
-    time: DEFAULT_TIME,
+    time: DEFAULT_TIME, // this is for the single prayer calculator, test-framework implementation
     lat: DEFAULT_LAT,
     long: DEFAULT_LONG,
+    city: "",
   })
 
   function updateSolarState(newTime) {
@@ -29,6 +29,8 @@ function App() {
         }
     });
   }
+  
+
 
   function updateLocation(newLat, newLong) {
     setState((oldState) => {
@@ -36,14 +38,13 @@ function App() {
             ...oldState, lat: newLat, long: newLong
         }
     });
-    console.log(state);
-  } 
+  }
 
   return (
     <div>
 
-      <SolarEvent updateSolarState={updateSolarState}/>
-      <Output time={state.time}/>
+      {/* <SolarEvent updateSolarState={updateSolarState}/>
+      <Output time={state.time}/> */}
       <Location updateLocation={updateLocation}/>
       <Timetable lat={state.lat} long={state.long}/>
 

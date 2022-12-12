@@ -87,4 +87,45 @@ app.get('/solarEvent', (req, res) => {
     res.send(time);
 })
 
+app.get('/prayer', (req, res) => {
+    const solarEventRequest = req.query;
+    let prayer;
+    let latitude;
+    let longitude;
+    let time = 0;
+
+    try {
+        prayer = solarEventRequest.prayer;
+        latitude = solarEventRequest.latitude;
+        longitude = solarEventRequest.longitude;
+    } catch {
+        res.send('missing params');
+    }
+
+
+    if (prayer == 'fajr') {
+        time = prayerTimes.getFajrISNA(latitude, longitude);
+
+    } else if (prayer == 'sunrise') {
+        time = prayerTimes.getSunrise(latitude, longitude);
+
+    } else if (prayer == 'dhuhr') {
+        time = prayerTimes.getDhuhrISNA(latitude, longitude);
+
+    } else if (prayer == 'asr') {
+        time = prayerTimes.getAsrISNA(latitude, longitude);
+
+    } else if (prayer == 'maghrib') {
+        time = prayerTimes.getMaghribISNA(latitude, longitude);
+
+    } else if (prayer == 'isha') {
+        time = prayerTimes.getIshaISNA(latitude, longitude);
+
+    } else {
+        res.send('Sad World.');
+    }
+    
+    res.send(time);
+})
+
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
