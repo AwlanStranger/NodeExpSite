@@ -58,43 +58,41 @@ export default function Output(props) {
 
   return (
   <div class="container">
-    Lat: {props.lat}<br/>
-    Long: {props.long}<br/>
-
-    
-    <h1>When Do You Pray?</h1>
+    <h3>{props.city}</h3>
+    {/* Lat: {props.lat}<br/>
+    Long: {props.long}<br/> */}
 
     <div align="center">
 
-      <table>
+      <table class="prayer-timetable">
         <tr>
-          <th>Prayer</th>
-          <th>Time</th>
+          <th class="text-datum">Prayer</th>
+          <th class="number-datum">Time</th>
         </tr>
 
         <tr>
-          <td>Fajr</td>
-          <td>{state.fajr}</td>
+          <td class="text-datum">Fajr</td>
+          <td class="number-datum">{state.fajr}</td>
         </tr>
 
         <tr>
-          <td>Dhuhr</td>
-          <td>{state.dhuhr}</td>
+          <td class="text-datum">Dhuhr</td>
+          <td class="number-datum">{state.dhuhr}</td>
         </tr>
 
         <tr>
-          <td>Asr</td>
-          <td>{state.asr}</td>
+          <td class="text-datum">Asr</td>
+          <td class="number-datum">{state.asr}</td>
         </tr>
 
         <tr>
-          <td>Maghrib</td>
-          <td>{state.maghrib}</td>
+          <td class="text-datum">Maghrib</td>
+          <td class="number-datum">{state.maghrib}</td>
         </tr>
 
         <tr>
-          <td>Isha</td>
-          <td>{state.isha}</td>
+          <td class="text-datum">Isha</td>
+          <td class="number-datum">{state.isha}</td>
         </tr>
         
       </table>

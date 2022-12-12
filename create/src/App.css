@@ -40,3 +40,17 @@
     transform: rotate(360deg);
   }
 }
+
+/** MY OWN CSS **/
+
+.number-datum {
+  text-align: right;
+}
+
+.text-datum {
+  text-align: left;
+}
+
+.prayer-timetable {
+  width: 200px;
+}
